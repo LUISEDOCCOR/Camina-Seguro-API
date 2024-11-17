@@ -5,6 +5,7 @@ from database.config import db, Group
 from routes.group import bp as bpGroup
 
 app = Flask(__name__)
+app.secret_key = "1234"
 
 app.register_blueprint(bpGroup)
 
