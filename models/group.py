@@ -6,8 +6,7 @@ class GroupModel:
 
     def getAll(self):
         try:
-            data = self.group.select().dicts()
-            return  list(data)
+            return  [record for record in self.group.select().dicts()]
         except:
            return []
 
@@ -42,3 +41,14 @@ class GroupModel:
             return True
         except:
             return False
+
+    def changeVisibility (self, id):
+        try:
+            data = self.getById(id)
+            if not data:
+                return False
+            query = self.group.update(isPublic=(not data.isPublic)).where(self.group.id == id)
+            query.execute()
+        except:
+            return False
+
