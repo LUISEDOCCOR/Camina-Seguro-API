@@ -20,7 +20,7 @@ app.register_blueprint(bpLocalAuth)
 
 @app.get("/")
 def root ():
-    return jsonify({"msg": "Is Live"})
+    return "ok"
 
 @app.before_request
 def init_database():
@@ -35,4 +35,4 @@ with db:
     db.create_tables([Group, LocalUser])
     if not LocalUser.select().where(LocalUser.username == "admin").exists():
         user = LocalUser(username="admin", password=hash_password(os.getenv("ADMIN_USER_PASSWORD")))
-        user.save()
+        user.save() 
