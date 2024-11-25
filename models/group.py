@@ -7,8 +7,7 @@ class GroupModel:
     def getAll(self):
         try:
             return  [record for record in self.group.select().dicts()]
-        except Exception as e:
-            print(e)
+        except:
             return []
 
     def getAllPublic(self):

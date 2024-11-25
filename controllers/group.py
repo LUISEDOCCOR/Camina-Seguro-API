@@ -1,4 +1,4 @@
-from flask import jsonify, request, render_template, flash, redirect, url_for
+from flask import jsonify, request, render_template, redirect, url_for
 from models.group import GroupModel
 
 class GroupController:

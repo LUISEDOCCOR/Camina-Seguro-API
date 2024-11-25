@@ -12,3 +12,11 @@ class Group (Model):
 
     class Meta:
         database = db
+
+class LocalUser (Model):
+    id = AutoField()
+    username = CharField(unique=True)
+    password = CharField()
+
+    class Meta:
+        database = db
