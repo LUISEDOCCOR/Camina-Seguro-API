@@ -7,7 +7,6 @@ groupController = GroupController()
 
 @bp.get("/")
 def getAll ():
-    print(groupController.getAll())
     return groupController.getAll()
 
 @bp.post("/")
@@ -25,3 +24,7 @@ def addPerson (id,role):
 @bp.get("/changevisibility/<int:id>")
 def changeVisibility(id):
     return groupController.changeVisibility(id)
+
+@bp.get("/delete/<int:id>")
+def delete(id):
+    return groupController.delete(id)

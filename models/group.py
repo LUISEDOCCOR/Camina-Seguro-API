@@ -7,6 +7,13 @@ class GroupModel:
     def getAll(self):
         try:
             return  [record for record in self.group.select().dicts()]
+        except Exception as e:
+            print(e)
+            return []
+
+    def getAllPublic(self):
+        try:
+            return  [record for record in self.group.select().where(self.group.isPublic == True).dicts()]
         except:
            return []
 
@@ -52,3 +59,13 @@ class GroupModel:
         except:
             return False
 
+
+    def delete (self, id):
+        try:
+            data = self.getById(id)
+            if not data:
+                return False
+            query = self.group.delete().where(self.group.id == id)
+            query.execute()
+        except:
+            return False

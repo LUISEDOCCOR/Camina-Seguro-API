@@ -1,5 +1,4 @@
 from flask import Flask, jsonify
-from werkzeug.wrappers.response import Response
 from database.config import db, Group
 #blueprints
 from routes.group import bp as bpGroup

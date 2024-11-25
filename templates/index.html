@@ -1,5 +1,4 @@
-{% extends "layouts/layout.html" %}
-{% block children %}
+{% extends "layouts/layout.html" %} {% block children %}
 <header class="space-y-2">
     <h1 class="text-2xl font-semibold">Camina Seguro</h1>
     <h2 class="text-sm">Dashboard</h2>
@@ -17,12 +16,12 @@
                         <th>#Parents</th>
                         <th>Schedule</th>
                         <th>It is public</th>
+                        <th>Delete</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% for group in groups %}
                     <tr>
-
                         <th>{{ group.id }}</th>
                         <td>{{ group.route }}</td>
                         <td>{{ group.students }}</td>
@@ -36,6 +35,9 @@
                             <a href="{{ url_for('group.changeVisibility', id=group.id) }}"
                                 class="btn btn-primary btn-xs">Publicar</a>
                             {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ url_for('group.delete', id=group.id) }}" class="btn btn-error btn-xs">Borrar</a>
                         </td>
                     </tr>
                     {% endfor %}
