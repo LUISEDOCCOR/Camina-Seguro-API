@@ -12,7 +12,7 @@ class LocalAuthController:
         if request.method == "POST":
             username = request.form.get("username")
             password = request.form.get("password")
-            
+
             if (len(username) < 4 or len(password) < 4):
                 flash("Todos los campos son necesarios.")
             else:

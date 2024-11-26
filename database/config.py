@@ -1,6 +1,15 @@
-from peewee import AutoField, CharField, IntegerField, Model, SqliteDatabase, BooleanField
+from peewee import AutoField, CharField, IntegerField, Model, SqliteDatabase, BooleanField, ForeignKeyField
 
 db = SqliteDatabase("./database/database.db")
+
+class User (Model):
+    id = AutoField()
+    name = CharField()
+    password = CharField()
+    email = CharField(unique=True)
+
+    class Meta:
+        database = db
 
 class Group (Model):
     id = AutoField()
@@ -9,6 +18,7 @@ class Group (Model):
     parents = IntegerField(default=0)
     schedule = CharField()
     isPublic = BooleanField(default=False)
+    user =  ForeignKeyField(User, backref="groups")
 
     class Meta:
         database = db

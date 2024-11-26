@@ -1,6 +1,7 @@
 from flask import Blueprint
 from controllers.group import GroupController
 from decorators.auth import requires_login
+from flask_jwt_extended import jwt_required
 
 bp = Blueprint("group", __name__, url_prefix="/group")
 
@@ -10,13 +11,19 @@ groupController = GroupController()
 def getAll ():
     return groupController.getAll()
 
+# WHEN USER IS LOGGED
+
 @bp.post("/")
+@jwt_required()
 def create ():
     return groupController.create()
 
 @bp.get("/add/<int:id>/<role>")
+@jwt_required()
 def addPerson (id,role):
     return groupController.addPerson(id, role)
+
+#ADMIN
 
 @bp.get("/changevisibility/<int:id>")
 @requires_login

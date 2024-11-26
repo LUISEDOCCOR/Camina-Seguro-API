@@ -1,22 +1,29 @@
-from flask import Flask, jsonify
-from database.config import db, Group, LocalUser
-#blueprints
-from routes.group import bp as bpGroup
-from routes.localauth import bp as bpLocalAuth
-#lib
-from lib.bcrypt import hash_password
+from flask import Flask
+from database.config import db, Group, LocalUser, User
 from dotenv import load_dotenv
 import os
 from datetime import timedelta
+#blueprints
+from routes.group import bp as bpGroup
+from routes.localauth import bp as bpLocalAuth
+from routes.user import bp as bpUser
+#lib
+from lib.bcrypt import hash_password
+#jwt
+from flask_jwt_extended import JWTManager
 
 load_dotenv(".env.local")
 
 app = Flask(__name__)
+JWTManager(app)
+
 app.secret_key = os.getenv("FLASK_PASSWORD")
 app.permanent_session_lifetime = timedelta(minutes=5)
+app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
 
 app.register_blueprint(bpGroup)
 app.register_blueprint(bpLocalAuth)
+app.register_blueprint(bpUser)
 
 @app.get("/")
 def root ():
@@ -32,7 +39,7 @@ def close_database(response):
     return response
 
 with db:
-    db.create_tables([Group, LocalUser])
+    db.create_tables([Group, LocalUser, User])
     if not LocalUser.select().where(LocalUser.username == "admin").exists():
         user = LocalUser(username="admin", password=hash_password(os.getenv("ADMIN_USER_PASSWORD")))
-        user.save() 
+        user.save()
