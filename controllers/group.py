@@ -1,10 +1,12 @@
 from flask import jsonify, request, render_template, redirect, url_for, flash
 from models.group import GroupModel
+from models.user import UserModel
 from flask_jwt_extended import get_jwt_identity
 
 class GroupController:
     def __init__(self):
         self.groupModel = GroupModel()
+        self.userModel = UserModel()
 
     def getAll (self):
         groups = self.groupModel.getAllPublic()
@@ -22,8 +24,8 @@ class GroupController:
             return {"msg": "No se permiten datos tan cortos."}, 400
 
         user_id = get_jwt_identity()
-
-        group = self.groupModel.create(route=route, schedule=schedule, user_id=user_id)
+        user = self.userModel.getDataById(user_id)
+        group = self.groupModel.create(route=route, schedule=schedule, user=user)
 
         if not group:
             return {"msg": "Algo paso al crearlo."}, 500
@@ -62,3 +64,8 @@ class GroupController:
             self.groupModel.delete(id)
 
         return redirect(url_for("group.dashboard"))
+
+    def getByUser (self):
+        user_id = get_jwt_identity()
+        groups = self.groupModel.getByUserId(user_id)
+        return jsonify(groups)

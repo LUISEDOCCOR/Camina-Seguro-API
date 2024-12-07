@@ -16,9 +16,15 @@ class GroupModel:
         except:
            return []
 
-    def create(self, route, schedule, user_id):
+    def getByUserId(self, user_id):
         try:
-            data = self.group(route=route, schedule=schedule, user_id=user_id)
+            return  [record for record in self.group.select().where(self.group.user == user_id).dicts()]
+        except:
+           return []
+
+    def create(self, route, schedule, user):
+        try:
+            data = self.group(route=route, schedule=schedule, user=user)
             data.save()
             dataDict = data.__data__
             return dataDict

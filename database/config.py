@@ -4,7 +4,6 @@ db = SqliteDatabase("./database/database.db")
 
 class User (Model):
     id = AutoField()
-    name = CharField()
     password = CharField()
     email = CharField(unique=True)
 

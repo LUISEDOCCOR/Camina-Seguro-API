@@ -23,6 +23,12 @@ def create ():
 def addPerson (id,role):
     return groupController.addPerson(id, role)
 
+
+@bp.get("/user")
+@jwt_required()
+def getByUser():
+    return groupController.getByUser()
+
 #ADMIN
 
 @bp.get("/changevisibility/<int:id>")

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from database.config import db, Group, LocalUser, User
 from dotenv import load_dotenv
 import os
@@ -15,11 +16,13 @@ from flask_jwt_extended import JWTManager
 load_dotenv(".env.local")
 
 app = Flask(__name__)
+CORS(app)
 JWTManager(app)
 
 app.secret_key = os.getenv("FLASK_PASSWORD")
 app.permanent_session_lifetime = timedelta(minutes=5)
 app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(days=30)
 
 app.register_blueprint(bpGroup)
 app.register_blueprint(bpLocalAuth)
