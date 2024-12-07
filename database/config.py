@@ -1,6 +1,24 @@
-from peewee import AutoField, CharField, IntegerField, Model, SqliteDatabase, BooleanField, ForeignKeyField
+from peewee import AutoField, CharField, IntegerField, Model, SqliteDatabase, BooleanField, ForeignKeyField, PostgresqlDatabase
+from dotenv import load_dotenv
+import os
 
-db = SqliteDatabase("./database/database.db")
+load_dotenv(".env.local")
+
+if(os.getenv("environment") == "production"):
+    DB_NAME = os.getenv('DB_NAME')
+    USER = os.getenv('DB_USER')
+    PASSWORD = os.getenv('DB_PASSWORD')
+    HOST = os.getenv('DB_HOST')
+    PORT = os.getenv('DB_PORT')
+    db = PostgresqlDatabase(
+        DB_NAME,
+        user=USER,
+        password=PASSWORD,
+        host=HOST,
+        port=PORT
+    )
+else:
+    db = SqliteDatabase("./database/database.db")
 
 class User (Model):
     id = AutoField()
