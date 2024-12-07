@@ -10,6 +10,7 @@ Jinja2==3.1.4
 MarkupSafe==3.0.2
 packaging==24.2
 peewee==3.17.8
+psycopg2-binary==2.9.10
 PyJWT==2.10.0
 python-dotenv==1.0.1
 uuid==1.30
